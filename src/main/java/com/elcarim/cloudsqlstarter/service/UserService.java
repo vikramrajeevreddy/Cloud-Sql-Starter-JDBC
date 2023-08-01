@@ -7,6 +7,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class UserService {
@@ -28,19 +29,24 @@ public class UserService {
         String sql = "SELECT * FROM User WHERE id = ?";
         return jdbcTemplate.queryForObject(sql, new Object[]{id}, userRowMapper);
     }
-//
-//    public int addUser(User user) {
-//        String sql = "INSERT INTO User (name, email, username, password) VALUES (?, ?, ?, ?)";
-//        return jdbcTemplate.update(sql, user.getName(), user.getEmail());
-//    }
+
+    public int addUser(User user) {
+        String sql = "INSERT INTO User (uuid_id, firstname, lastname, email, username, password) VALUES (?, ?, ?, ?, ?, ?)";
+        return jdbcTemplate.update(sql, user.getUuid_id(), user.getFirstname(),user.getLastname(), user.getEmail(), user.getUsername(), user.getPassword());
+    }
+
+    public User getUserByUuid(String id) {
+        String sql = "SELECT * FROM User WHERE uuid_id = ?";
+        return jdbcTemplate.queryForObject(sql, new Object[]{id}, userRowMapper);
+    }
 //
 ////    public int updateUser(User user) {
 ////        String sql = "UPDATE User SET name = ?, email = ? , username=?, password=? WHERE id = ?";
 ////        return jdbcTemplate.update(sql, user.getName(), user.getEmail(), user.getId());
 ////    }
 //
-//    public int deleteUser(int id) {
-//        String sql = "DELETE FROM User WHERE id = ?";
-//        return jdbcTemplate.update(sql, id);
-//    }
+    public int deleteUser(String id) {
+        String sql = "DELETE FROM User WHERE uuid_id = ?";
+        return jdbcTemplate.update(sql, id);
+    }
 }
