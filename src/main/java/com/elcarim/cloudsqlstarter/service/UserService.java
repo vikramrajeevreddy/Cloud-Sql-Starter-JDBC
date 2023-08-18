@@ -49,4 +49,9 @@ public class UserService {
         String sql = "DELETE FROM User WHERE uuid_id = ?";
         return jdbcTemplate.update(sql, id);
     }
+
+    public User getUserByEmail(String email) {
+        String sql = "SELECT * FROM User WHERE email = ?";
+        return jdbcTemplate.queryForObject(sql, new Object[]{email}, userRowMapper);
+    }
 }
